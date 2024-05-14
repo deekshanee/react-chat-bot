@@ -11,6 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+
 import ArrowCircleUpRoundedIcon from "@mui/icons-material/ArrowCircleUpRounded";
 import ReactMarkdown from "react-markdown";
 import { v4 as uuidv4 } from "uuid";
@@ -33,11 +34,6 @@ const Chat = () => {
   ]);
 
   const onEnter = async (e) => {
-    // const headers = {
-    //   "Content-Type": "application/json",
-    //   Authorization: "JWT fefege...",
-    // };
-
     const messageId = uuidv4();
     try {
       if (e.key === "Enter") {
@@ -48,12 +44,21 @@ const Chat = () => {
           { uuid: uuidv4(), content: chat, type: "You" },
         ]);
         setChat("");
+        const headers = {
+          "X-API-Key": process.env.REACT_APP_API_KEY,
+        };
 
-        const response = await axios.post(`${API_HOST}/chat`, {
-          userid: "ssahoo1",
-          sessionid: "938840d0938dmdi",
-          question: chat,
-        });
+        const response = await axios.post(
+          `${API_HOST}/chat`,
+          {
+            userid: "ssahoo1",
+            sessionid: "938840d0938dmdi",
+            question: chat,
+          },
+          {
+            headers,
+          }
+        );
         console.log(response);
         const res = response.data.body.answer;
         setMessages((prevMessages) => [

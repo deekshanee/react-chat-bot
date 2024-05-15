@@ -26,8 +26,8 @@ export default function DrawerLeft() {
   React.useEffect(() => {
     const fetchData = async () => {
       // get all the conversation id
-      const ids = await getConversationIds();
-      setConversationIds(ids);
+      const sessions = await getConversationIds();
+      setConversationIds(sessions);
     };
 
     fetchData();
@@ -57,17 +57,19 @@ export default function DrawerLeft() {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
+        <Toolbar variant="dense">
+          <Typography variant="h6">Recent Conversation</Typography>
+        </Toolbar>
 
         <Divider />
         <List>
           {conversationIds.map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <ListItem key={text[0].SessionId.S} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <QuestionAnswerIcon></QuestionAnswerIcon>
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text[0].chatTitleMessage.S} />
               </ListItemButton>
             </ListItem>
           ))}
